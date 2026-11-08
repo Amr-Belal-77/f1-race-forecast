@@ -1,0 +1,21 @@
+year,round,race,driver_id,driver,team,grid_position,qualifying_position,finish_position,status,winner
+2025,21,São Paulo Grand Prix,norris,Lando Norris,McLaren,1,1.0,1,Finished,1
+2025,21,São Paulo Grand Prix,antonelli,Andrea Kimi Antonelli,Mercedes,2,2.0,2,Finished,0
+2025,21,São Paulo Grand Prix,max_verstappen,Max Verstappen,Red Bull,19,16.0,3,Finished,0
+2025,21,São Paulo Grand Prix,russell,George Russell,Mercedes,6,6.0,4,Finished,0
+2025,21,São Paulo Grand Prix,piastri,Oscar Piastri,McLaren,4,4.0,5,Finished,0
+2025,21,São Paulo Grand Prix,bearman,Oliver Bearman,Haas F1 Team,8,8.0,6,Finished,0
+2025,21,São Paulo Grand Prix,lawson,Liam Lawson,RB F1 Team,7,7.0,7,Finished,0
+2025,21,São Paulo Grand Prix,hadjar,Isack Hadjar,RB F1 Team,5,5.0,8,Finished,0
+2025,21,São Paulo Grand Prix,hulkenberg,Nico Hülkenberg,Sauber,10,10.0,9,Finished,0
+2025,21,São Paulo Grand Prix,gasly,Pierre Gasly,Alpine F1 Team,9,9.0,10,Finished,0
+2025,21,São Paulo Grand Prix,albon,Alexander Albon,Williams,12,12.0,11,Finished,0
+2025,21,São Paulo Grand Prix,ocon,Esteban Ocon,Haas F1 Team,20,17.0,12,Finished,0
+2025,21,São Paulo Grand Prix,sainz,Carlos Sainz,Williams,15,15.0,13,Finished,0
+2025,21,São Paulo Grand Prix,alonso,Fernando Alonso,Aston Martin,11,11.0,14,Finished,0
+2025,21,São Paulo Grand Prix,colapinto,Franco Colapinto,Alpine F1 Team,16,18.0,15,Finished,0
+2025,21,São Paulo Grand Prix,stroll,Lance Stroll,Aston Martin,14,14.0,16,Finished,0
+2025,21,São Paulo Grand Prix,tsunoda,Yuki Tsunoda,Red Bull,17,19.0,17,Finished,0
+2025,21,São Paulo Grand Prix,hamilton,Lewis Hamilton,Ferrari,13,13.0,18,Retired,0
+2025,21,São Paulo Grand Prix,leclerc,Charles Leclerc,Ferrari,3,3.0,19,Retired,0
+2025,21,São Paulo Grand Prix,bortoleto,Gabriel Bortoleto,Sauber,18,,20,Retired,0

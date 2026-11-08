@@ -5,7 +5,15 @@ import sys
 import pandas as pd
 import pytest
 
-from f1_forecast.pipeline import load_config, run_pipeline
+from f1_forecast.pipeline import file_hash, load_config, run_pipeline
+
+
+def test_text_hashes_survive_git_line_ending_conversion(tmp_path):
+    windows = tmp_path / "windows.csv"
+    unix = tmp_path / "unix.csv"
+    windows.write_bytes(b"driver,grid\r\na,1\r\n")
+    unix.write_bytes(b"driver,grid\na,1\n")
+    assert file_hash(windows) == file_hash(unix)
 
 
 def test_full_offline_run_writes_reproducible_artifacts(history, grid, tmp_path):

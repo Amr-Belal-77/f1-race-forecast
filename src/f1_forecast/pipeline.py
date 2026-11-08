@@ -20,7 +20,8 @@ DEFAULT_CONFIG = Path(__file__).resolve().parents[2] / "config/sao_paulo_2026.to
 
 
 def file_hash(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    """Hash text with LF line endings so Git checkout conversion preserves provenance."""
+    return hashlib.sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def load_config(path=DEFAULT_CONFIG):
@@ -122,6 +123,7 @@ def predict(config, output, history, models=None):
 def write_manifest(config, output, history, n_estimators):
     manifest = {
         "schema_version": 1,
+        "hash_scheme": "sha256 with CRLF normalized to LF for text inputs/reports",
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "race": config["race"],
         "cutoff_exclusive": config["data"]["cutoff"],

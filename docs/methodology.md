@@ -51,7 +51,7 @@ Calibration reports split driver-race rows into P1, P2–P3, P4–P6, P7–P10, 
 
 ## Artifacts and provenance
 
-The full run records input SHA-256 hashes, the configuration hash, software versions, cutoff, actual last training date, model feature sets and hyperparameters. Dashboard report hashes prevent silently combining inconsistent report files. Training bundles record history hashes, cutoff and expected features; prediction refuses mismatches. Joblib artifacts are executable serialization and must remain trusted local files.
+The full run records input SHA-256 hashes, the configuration hash, software versions, cutoff, actual last training date, model feature sets and hyperparameters. Text hashes normalize CRLF to LF before hashing so Git's Windows/Linux line-ending conversion does not invalidate reports. Dashboard report hashes prevent silently combining inconsistent report files. Training bundles record history hashes, cutoff and expected features; prediction refuses mismatches. Joblib artifacts are executable serialization and must remain trusted local files.
 
 `reports/demo/` includes only the small report files required for initial dashboard exploration. Rebuildable model files and the full output directory stay out of Git. To regenerate the demo, run the full pipeline, then copy `predictions.csv`, `backtest_summary.csv`, `grid_calibration.csv` and `manifest.json` from the output directory to `reports/demo/` together.
 
