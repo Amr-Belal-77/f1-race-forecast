@@ -142,6 +142,8 @@ python -m ruff format --check .
 
 The tests exercise current-outcome leakage, shared historical/target formulas, unseen drivers, input validation, race normalization, fold boundaries, actual training/prediction artifacts and dashboard interactions using [Streamlit AppTest](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest).
 
+See [verification notes](docs/verification.md) for fresh-checkout results, independent review fixes, implementation decisions and remaining dependency warnings.
+
 ## Provenance and limitations
 
 - Historical CSV: inherited local data originally collected with the Jolpica API scripts. The preserved source covers 2018–2026 before the configured cutoff.
