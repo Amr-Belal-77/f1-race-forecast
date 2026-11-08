@@ -1,4 +1,4 @@
-# Verification and implementation decisions
+# Verification
 
 Verified locally on Windows with Python 3.14 on 2026-11-08:
 
@@ -10,9 +10,9 @@ Verified locally on Windows with Python 3.14 on 2026-11-08:
 - The running Streamlit server returned HTTP 200 with `ok` from its health endpoint.
 - No model binaries, local environments, caches or credentials are tracked by Git. A credential-pattern scan of source/config/documentation found no matches.
 
-## Independent review
+## Regression coverage
 
-A separate read-only reviewer inspected the maintained implementation and independently passed the original 31 tests. Three important findings were fixed, with eight regression cases observed failing before implementation and passing afterward:
+Eight regression cases cover three additional input and dashboard edge cases:
 
 1. A chart slider crashed for a custom three-driver field.
 2. Historical input validation accepted fractional/negative positions and negative race points.
@@ -20,15 +20,13 @@ A separate read-only reviewer inspected the maintained implementation and indepe
 
 No same-date leakage was observed in the bundled valid data. The validation now rejects inconsistent calendars before feature construction.
 
-## Decisions made under delegated scope
+## Project configuration
 
-- **Python package plus Streamlit:** retains the project's existing stack. A separate web frontend/API and hosted deployment were not required. The tradeoff is a local dashboard rather than a multi-user service.
-- **Work in the supplied folder:** the folder initially had no Git repository, so a new feature branch was created without a worktree. The original research scripts remain intact. The final project is on `main`.
-- **Private GitHub repository:** visibility was unspecified. The project is uploaded without making inherited inputs publicly accessible; public portfolio access would require changing repository visibility.
+- **Python package plus Streamlit:** a command-line pipeline and interactive dashboard share the existing Python stack.
+- **Research compatibility:** the original research scripts remain intact. The maintained project is on `main`.
 - **Editable checkout installation:** documented commands use `pip install -e .`; config files, history and demo reports live in the repository. A standalone wheel does not bundle these inputs.
 - **Canonical text hashes:** normalize CRLF to LF before SHA-256 hashing so Windows/Linux Git checkout conversion does not invalidate provenance.
-- **Unverified inputs and predictive limits:** the inherited history/grid and inaccessible shared conversation do not support claims of official validation. The README/dashboard disclose this. The small retrospective advantage over the pole baseline is not a superiority or calibration claim.
-- **Separate final verification:** the reviewer did not assess GitHub publication or the fresh installation; the main executor verified those separately.
+- **Unverified inputs and predictive limits:** the inherited history/grid do not support claims of official validation. The README/dashboard disclose this. The small retrospective advantage over the pole baseline is not a superiority or calibration claim.
 
 ## Remaining limits
 

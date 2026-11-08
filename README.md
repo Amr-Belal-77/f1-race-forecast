@@ -149,7 +149,6 @@ See [verification notes](docs/verification.md) for fresh-checkout results, indep
 - Historical CSV: inherited local data originally collected with the Jolpica API scripts. The preserved source covers 2018–2026 before the configured cutoff.
 - Target grid: extracted from the existing research prediction file, retaining only IDs, driver/team identities, starting positions, qualifying positions and lap times. Past model scores and rolling features were discarded and recomputed.
 - The older scripts cite FIA qualifying/grid documents; those references have not been independently revalidated for this packaged release. Treat the bundled grid as a research example until verified.
-- The shared ChatGPT conversation could not be retrieved. Implementation decisions are grounded in the local scripts and saved outputs, not a claimed reading of that conversation.
 - Weather, crashes, strategy, component reliability and regulation changes are not modeled explicitly. Qualifying gaps can be misleading in changing conditions. No live updating, real-time race prediction or calibrated betting odds are provided.
 - Versions and parameters are recorded per run; exact numerical reproducibility across dependency versions/platforms is not guaranteed. Runtime dependencies use compatible ranges rather than a full lock file.
 - No software license has been selected. Third-party data retain their upstream terms; verify those terms before redistributing data publicly.
