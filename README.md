@@ -2,6 +2,8 @@
 
 An end-to-end Formula 1 winner forecasting project: historical data collection, leakage-aware features, XGBoost models, walk-forward evaluation, grid-risk audits and an interactive Streamlit dashboard.
 
+**[Open the public dashboard](https://f1-race-forecast.streamlit.app/)** · **[GitHub repository](https://github.com/Amr-Belal-77/f1-race-forecast)**
+
 The default example is a **frozen Sao Paulo 2026 research snapshot**, inherited from the original project. It is not a live race feed. Its grid and historical inputs have **not been independently verified** against current official sources. Model outputs are **uncalibrated normalized scores**, not established real-world win odds.
 
 ## Quick start
@@ -142,7 +144,7 @@ python -m ruff format --check .
 
 The tests exercise current-outcome leakage, shared historical/target formulas, unseen drivers, input validation, race normalization, fold boundaries, actual training/prediction artifacts and dashboard interactions using [Streamlit AppTest](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest).
 
-See [verification notes](docs/verification.md) for fresh-checkout results, independent review fixes, implementation decisions and remaining dependency warnings.
+See [verification notes](docs/verification.md) for fresh-checkout results, regression coverage, project configuration and remaining dependency warnings. Hosting configuration is documented in [deployment notes](docs/deployment.md).
 
 ## Provenance and limitations
 
