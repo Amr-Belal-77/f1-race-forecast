@@ -9,10 +9,15 @@ def test_current_outcomes_do_not_change_current_features(history):
     history.loc[history.season == 2021, "points"] = 999
     after = build_features(history)
     cols = ["driver_avg_points_last5", "team_avg_points_last5", "driver_win_rate_last5"]
-    pd.testing.assert_frame_equal(before.loc[before.season == 2021, cols],
-                                  after.loc[after.season == 2021, cols])
-    assert after.loc[(after.season == 2022) & (after.driver_id == "a"),
-                     "driver_avg_points_last5"].item() == 512
+    pd.testing.assert_frame_equal(
+        before.loc[before.season == 2021, cols], after.loc[after.season == 2021, cols]
+    )
+    assert (
+        after.loc[
+            (after.season == 2022) & (after.driver_id == "a"), "driver_avg_points_last5"
+        ].item()
+        == 512
+    )
 
 
 def test_rolling_history_and_qualifying_gaps(history):

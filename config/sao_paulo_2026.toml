@@ -1,0 +1,19 @@
+# Paths resolve relative to this file, so commands work from any working directory.
+[data]
+history = "../data/raw/historical_f1_2018_2026.csv"
+grid = "../data/snapshots/sao_paulo_2026_grid.csv"
+start_season = 2018
+end_season = 2026
+cutoff = "2026-11-08"
+provenance = "Inherited local research history and manually transcribed pre-race grid; not independently verified against live official sources."
+
+[race]
+name = "Sao Paulo Grand Prix 2026"
+date = "2026-11-08"
+season = 2026
+round = 20
+snapshot_status = "Frozen research input; provisional grid. Verify amendments before real-world use."
+
+[evaluation]
+years = [2022, 2023, 2024, 2025, 2026]
+diagnostic_from = 2026

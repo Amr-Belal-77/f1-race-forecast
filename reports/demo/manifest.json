@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T04:34:50.612003+00:00",
+  "race": {
+    "name": "Sao Paulo Grand Prix 2026",
+    "date": "2026-11-08",
+    "season": 2026,
+    "round": 20,
+    "snapshot_status": "Frozen research input; provisional grid. Verify amendments before real-world use."
+  },
+  "cutoff_exclusive": "2026-11-08",
+  "training_rows": 3876,
+  "training_races": 192,
+  "training_max_date": "2026-11-01",
+  "evaluation": {
+    "years": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "diagnostic_from": 2026
+  },
+  "provenance": "Inherited local research history and manually transcribed pre-race grid; not independently verified against live official sources.",
+  "score_status": "Uncalibrated normalized model scores; V3 is experimental",
+  "inputs": {
+    "history": {
+      "name": "historical_f1_2018_2026.csv",
+      "sha256": "c96a22ff094740f42f6dd8e3b224df57387f4773460a19fa65f5d0f176a245a9"
+    },
+    "grid": {
+      "name": "sao_paulo_2026_grid.csv",
+      "sha256": "6e4c4b69d70cf2e4f23e6c47eea6fbe6f3d81555d42da940d5771ad306f60f91"
+    }
+  },
+  "config_sha256": "1f0b7068b5920b9ac8861957affe7423915282261a4b4cb305e4d8a76cb2eb22",
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1"
+  },
+  "python": "3.14.2",
+  "models": {
+    "V1": {
+      "features": [
+        "grid_position",
+        "qualifying_position",
+        "driver_avg_finish_last5",
+        "driver_avg_points_last5",
+        "driver_win_rate_last5",
+        "driver_prior_starts",
+        "team_avg_points_last5",
+        "pit_lane_start"
+      ],
+      "n_estimators": 250,
+      "random_state": 42
+    },
+    "V2": {
+      "features": [
+        "grid_position",
+        "qualifying_position",
+        "driver_avg_finish_last5",
+        "driver_avg_points_last5",
+        "driver_win_rate_last5",
+        "driver_prior_starts",
+        "team_avg_points_last5",
+        "pit_lane_start",
+        "q1_gap_s",
+        "q2_gap_s",
+        "q3_gap_s",
+        "has_q2_time",
+        "has_q3_time"
+      ],
+      "n_estimators": 250,
+      "random_state": 42
+    },
+    "V3": {
+      "features": [
+        "grid_position",
+        "qualifying_position",
+        "driver_avg_finish_last5",
+        "driver_avg_points_last5",
+        "driver_win_rate_last5",
+        "driver_prior_starts",
+        "team_avg_points_last5",
+        "pit_lane_start",
+        "q1_gap_s",
+        "q2_gap_s",
+        "q3_gap_s",
+        "has_q2_time",
+        "has_q3_time",
+        "grid_places_lost_vs_qualifying",
+        "grid_places_gained_vs_qualifying",
+        "starts_p14_or_worse"
+      ],
+      "n_estimators": 250,
+      "random_state": 42
+    }
+  },
+  "artifacts": {
+    "predictions.csv": "0b6eeba5982433ec1eec3d89bfa25cd8420c05db2d4d88cb33641dd4aeb385c1",
+    "backtest_summary.csv": "b1d487eaa10df55faeef8bf96e98f22634020b3e50e3ecd85bdd1ff8212b1889",
+    "grid_calibration.csv": "765705eef1c6dd3fb87cd4b1feb4bac3dcf0fde78969f17068e43202f0a6ca9a"
+  }
+}

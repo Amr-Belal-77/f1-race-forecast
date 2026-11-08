@@ -29,15 +29,30 @@ def test_malformed_history_fails_before_training(history, breakage):
 def test_collection_from_cached_api_pages_respects_cutoff(tmp_path):
     driver = {"driverId": "a", "givenName": "A", "familyName": "Driver"}
     team = {"constructorId": "team", "name": "Team"}
-    race = {"season": "2020", "round": "1", "date": "2020-03-01", "raceName": "GP",
-            "Circuit": {"circuitId": "test"}}
-    result = {"Driver": driver, "Constructor": team, "grid": "1", "position": "1",
-              "points": "25", "status": "Finished"}
+    race = {
+        "season": "2020",
+        "round": "1",
+        "date": "2020-03-01",
+        "raceName": "GP",
+        "Circuit": {"circuitId": "test"},
+    }
+    result = {
+        "Driver": driver,
+        "Constructor": team,
+        "grid": "1",
+        "position": "1",
+        "points": "25",
+        "status": "Finished",
+    }
     quali = {"Driver": driver, "position": "1", "Q1": "1:20.000"}
-    for kind, key, record in [("results", "Results", result),
-                               ("qualifying", "QualifyingResults", quali)]:
-        races = [dict(race, **{key: [record]}),
-                 dict(race, round="2", date="2021-01-01", **{key: [record]})]
+    for kind, key, record in [
+        ("results", "Results", result),
+        ("qualifying", "QualifyingResults", quali),
+    ]:
+        races = [
+            dict(race, **{key: [record]}),
+            dict(race, round="2", date="2021-01-01", **{key: [record]}),
+        ]
         payload = {"MRData": {"total": "2", "limit": "100", "RaceTable": {"Races": races}}}
         (tmp_path / f"2020_{kind}_0.json").write_text(json.dumps(payload))
     collected = collect_history(2020, 2020, "2021-01-01", tmp_path)

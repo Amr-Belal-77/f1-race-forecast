@@ -6,13 +6,21 @@ import pandas as pd
 from .data import RACE_KEYS, ROW_KEYS, require_columns, validate_history, validate_identity
 
 V1_FEATURES = [
-    "grid_position", "qualifying_position", "driver_avg_finish_last5",
-    "driver_avg_points_last5", "driver_win_rate_last5", "driver_prior_starts",
-    "team_avg_points_last5", "pit_lane_start",
+    "grid_position",
+    "qualifying_position",
+    "driver_avg_finish_last5",
+    "driver_avg_points_last5",
+    "driver_win_rate_last5",
+    "driver_prior_starts",
+    "team_avg_points_last5",
+    "pit_lane_start",
 ]
 V2_FEATURES = V1_FEATURES + ["q1_gap_s", "q2_gap_s", "q3_gap_s", "has_q2_time", "has_q3_time"]
-V3_FEATURES = V2_FEATURES + ["grid_places_lost_vs_qualifying",
-                            "grid_places_gained_vs_qualifying", "starts_p14_or_worse"]
+V3_FEATURES = V2_FEATURES + [
+    "grid_places_lost_vs_qualifying",
+    "grid_places_gained_vs_qualifying",
+    "starts_p14_or_worse",
+]
 FEATURE_SETS = {"V1": V1_FEATURES, "V2": V2_FEATURES, "V3": V3_FEATURES}
 
 
@@ -30,22 +38,34 @@ def lap_seconds(value):
 
 def _engineer(frame):
     frame = frame.sort_values(["race_date", *ROW_KEYS]).reset_index(drop=True).copy()
-    for source, target in [("finish_position", "driver_avg_finish_last5"),
-                           ("points", "driver_avg_points_last5"),
-                           ("winner", "driver_win_rate_last5")]:
+    for source, target in [
+        ("finish_position", "driver_avg_finish_last5"),
+        ("points", "driver_avg_points_last5"),
+        ("winner", "driver_win_rate_last5"),
+    ]:
         frame[target] = frame.groupby("driver_id")[source].transform(
-            lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+            lambda x: x.shift(1).rolling(5, min_periods=1).mean()
+        )
     frame["driver_prior_starts"] = frame.groupby("driver_id").cumcount()
     team_keys = RACE_KEYS + ["race_date", "team_id"]
     teams = frame.groupby(team_keys, as_index=False).points.sum(min_count=1)
     teams = teams.sort_values(["race_date", *RACE_KEYS, "team_id"])
     teams["team_avg_points_last5"] = teams.groupby("team_id").points.transform(
-        lambda x: x.shift(1).rolling(5, min_periods=1).mean())
-    frame = frame.merge(teams[team_keys + ["team_avg_points_last5"]], on=team_keys,
-                        how="left", validate="many_to_one")
+        lambda x: x.shift(1).rolling(5, min_periods=1).mean()
+    )
+    frame = frame.merge(
+        teams[team_keys + ["team_avg_points_last5"]],
+        on=team_keys,
+        how="left",
+        validate="many_to_one",
+    )
     bad_grid = frame.grid_position.isna() | frame.grid_position.le(0)
-    max_grid = frame.grid_position.where(~bad_grid).groupby(
-        [frame[k] for k in RACE_KEYS]).transform("max").fillna(0)
+    max_grid = (
+        frame.grid_position.where(~bad_grid)
+        .groupby([frame[k] for k in RACE_KEYS])
+        .transform("max")
+        .fillna(0)
+    )
     frame["pit_lane_start"] = bad_grid.astype(int)
     frame.loc[bad_grid, "grid_position"] = max_grid[bad_grid] + 1
     frame["qualifying_position"] = frame.qualifying_position.where(frame.qualifying_position > 0)
@@ -75,8 +95,12 @@ def validate_grid(grid):
     for col in ("grid_position", "qualifying_position"):
         grid[col] = pd.to_numeric(grid[col], errors="raise")
         values = grid[col]
-        if not (np.isfinite(values) & values.ge(0) & values.le(len(grid)) & (values % 1 == 0)).all():
-            raise ValueError(f"Invalid {col}: use integer positions; 0 denotes pit lane/no position")
+        if not (
+            np.isfinite(values) & values.ge(0) & values.le(len(grid)) & (values % 1 == 0)
+        ).all():
+            raise ValueError(
+                f"Invalid {col}: use integer positions; 0 denotes pit lane/no position"
+            )
         positive = values[values > 0]
         if positive.duplicated().any():
             raise ValueError(f"Duplicate {col} in grid")
@@ -94,10 +118,23 @@ def build_target_features(history, grid, race_date, season, round_number):
     if ((past.season == season) & (past["round"] == round_number)).any():
         raise ValueError("Target race key already exists in historical data")
     # Copy only allowed input columns: supplied targets/rolling features are never trusted.
-    target = grid[["driver_id", "driver", "team_id", "team", "grid_position",
-                   "qualifying_position", "q1", "q2", "q3"]].copy()
+    target = grid[
+        [
+            "driver_id",
+            "driver",
+            "team_id",
+            "team",
+            "grid_position",
+            "qualifying_position",
+            "q1",
+            "q2",
+            "q3",
+        ]
+    ].copy()
     target["race_date"], target["season"], target["round"] = date, season, round_number
     for col in ("finish_position", "points", "winner"):
         target[col] = np.nan
-    combined = _engineer(pd.concat([past, target], ignore_index=True))
-    return combined.loc[(combined.season == season) & (combined["round"] == round_number)].reset_index(drop=True)
+    combined = _engineer(pd.concat([past[target.columns], target], ignore_index=True))
+    return combined.loc[
+        (combined.season == season) & (combined["round"] == round_number)
+    ].reset_index(drop=True)
