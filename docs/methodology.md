@@ -6,7 +6,7 @@ Choose a race winner from a complete pre-race field using completed historical r
 
 ## Chronology
 
-The configured cutoff excludes all outcomes on that calendar date or later. Race dates, driver/team identities, keys and labels are validated before feature construction. Each race must have exactly one winner; winner labels must agree with finishing position.
+The configured cutoff excludes all outcomes on that calendar date or later. Race dates, driver/team identities, keys and labels are validated before feature construction. Each race must have exactly one winner; winner labels must agree with finishing position. Historical positions must be nonnegative integers (or missing) and points must be nonnegative. Race seasons must match their calendar years. Distinct races on the same calendar date are rejected because this date-only workflow cannot establish their information order.
 
 Driver features use `shift(1)` followed by a five-start rolling mean for finish, points and win rate. Prior starts are a count within the available historical window, not necessarily career starts. Team points first aggregate all drivers per team/race, then use the previous five team races. A driver's team at inference comes from the explicit target input, supporting transfers and debutants.
 

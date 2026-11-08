@@ -39,7 +39,7 @@ def main():
         st.caption(
             f"V1 {weight:.0%} / V2 {1 - weight:.0%}. The backtested ensemble stays fixed at 50/50."
         )
-        top_n = st.slider("Drivers in chart", 3, len(predictions), min(10, len(predictions)))
+        top_n = st.slider("Drivers in chart", 1, len(predictions), min(10, len(predictions)))
         include_diagnostic = st.checkbox("Include diagnostic seasons", key="include_diagnostic")
         st.divider()
         st.caption(

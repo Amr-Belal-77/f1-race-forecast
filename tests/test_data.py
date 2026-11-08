@@ -1,5 +1,6 @@
 import json
 
+import pandas as pd
 import pytest
 
 from f1_forecast.data import collect_history, validate_history
@@ -60,3 +61,33 @@ def test_collection_from_cached_api_pages_respects_cutoff(tmp_path):
     assert collected.iloc[0].driver_id == "a"
     assert collected.iloc[0].winner == 1
     assert collected.iloc[0].q1 == "1:20.000"
+
+
+@pytest.mark.parametrize(
+    "column,value",
+    [
+        ("grid_position", 1.5),
+        ("grid_position", -1),
+        ("qualifying_position", 1.5),
+        ("qualifying_position", -1),
+        ("points", -1),
+    ],
+)
+def test_invalid_historical_positions_and_points_are_rejected(history, column, value):
+    history[column] = history[column].astype(float)
+    history.loc[0, column] = value
+    with pytest.raises(ValueError, match=column):
+        validate_history(history)
+
+
+def test_multiple_races_on_same_date_are_rejected_by_date_only_chronology(history):
+    duplicate = history.loc[history.season == 2020].copy()
+    duplicate["round"] = 2
+    with pytest.raises(ValueError, match="date"):
+        validate_history(pd.concat([history, duplicate], ignore_index=True))
+
+
+def test_historical_season_matches_date_year(history):
+    history.loc[history.season == 2020, "race_date"] = "2019-03-01"
+    with pytest.raises(ValueError, match="season"):
+        validate_history(history)

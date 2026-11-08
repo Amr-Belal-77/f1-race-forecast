@@ -72,6 +72,12 @@ def validate_history(frame, cutoff=None):
         if frame[col].isna().any() or not ((frame[col] > 0) & (frame[col] % 1 == 0)).all():
             raise ValueError(f"Invalid {col}")
         frame[col] = frame[col].astype(int)
+    for col in ["grid_position", "qualifying_position"]:
+        values = frame[col].dropna()
+        if not (values.ge(0) & (values % 1 == 0)).all():
+            raise ValueError(f"Invalid {col}: expected nonnegative integer positions or missing")
+    if frame.points.lt(0).any():
+        raise ValueError("Invalid points: race points cannot be negative")
     if frame.points.isna().any() or not frame.winner.isin([0, 1]).all():
         raise ValueError("Invalid points or winner labels")
     if not frame.winner.eq(frame.finish_position.eq(1).astype(int)).all():
@@ -83,6 +89,11 @@ def validate_history(frame, cutoff=None):
         raise ValueError("Each historical race must have exactly one winner")
     if not grouped.race_date.nunique().eq(1).all():
         raise ValueError("Conflicting dates within a race")
+    if not frame.race_date.dt.year.eq(frame.season).all():
+        raise ValueError("Historical season disagrees with race date year")
+    calendar = frame[RACE_KEYS + ["race_date"]].drop_duplicates()
+    if calendar.race_date.duplicated().any():
+        raise ValueError("Distinct races sharing a date are unsupported by date-only chronology")
     return frame.sort_values(["race_date", *ROW_KEYS]).reset_index(drop=True)
 
 
