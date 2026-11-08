@@ -1,0 +1,2 @@
+# Runtime dependencies and the local package.
+-e .

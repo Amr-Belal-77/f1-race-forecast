@@ -1,0 +1,29 @@
+# Local environments and caches
+.F1_SaoPaulo_env/
+.venv/
+venv/
+.fastf1_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.superpowers/
+.worktrees/
+# Credentials and machine configuration
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+.idea/
+.vscode/
+# Rebuildable models, downloads and pipeline outputs
+models/
+artifacts/
+data/raw/api_cache/
+data/processed/
+dist/
+build/
+*.log
